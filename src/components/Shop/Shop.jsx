@@ -6,6 +6,7 @@ import Cart from '../Cart/Cart';
 const Shop = () => {
     const [products, setProducts] = useState([])
     const [cart, setCart] = useState([]);
+
     // এখানে cart একটি এ্যারে রিটার্ন করে। useState -এর এই এ্যারে যেহেতু immutable তাই এটানে চেঞ্জ করা যায় না। তাই এখানে Array.push এর বদলে ...cart (Spread operator) ব্যবহার করা হয়েছে।
 
     useEffect(()=>{
@@ -14,18 +15,20 @@ const Shop = () => {
         .then(data=>setProducts(data))
     },[])
 
-    // const handleAddToCart = (product) => {
-    //     const newCart = [...cart, product]
-    //     setCart(newCart);
-    // }
+    const handleAddToCart=(product) => {
+       const newCart = [...cart, product];
+       setCart(newCart);
+    }
+
     return (
         <div className='shop-container'>
             <div className="products-container">
                  {
-                    products.map(product =><Product key={product.id} product={product} ></Product>)
+                    products.map(product =><Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product>)
                 }
             </div>
             <div className="cart-container">
+                <p>item added : {cart.length}</p>
                 <Cart cart={cart}></Cart>
             </div>
         </div>
